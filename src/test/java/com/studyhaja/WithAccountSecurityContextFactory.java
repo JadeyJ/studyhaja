@@ -1,7 +1,7 @@
 package com.studyhaja;
 
 import com.studyhaja.account.AccountService;
-import com.studyhaja.account.SignUpForm;
+import com.studyhaja.account.form.SignUpForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

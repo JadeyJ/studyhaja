@@ -1,8 +1,10 @@
 package com.studyhaja.account;
 
+import com.studyhaja.account.form.SignUpForm;
 import com.studyhaja.domain.Account;
-import com.studyhaja.settings.Notifications;
-import com.studyhaja.settings.Profile;
+import com.studyhaja.settings.form.NicknameForm;
+import com.studyhaja.settings.form.Notifications;
+import com.studyhaja.settings.form.Profile;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.mail.SimpleMailMessage;
@@ -97,5 +99,10 @@ public class AccountService implements UserDetailsService {
     public void updateNotifications(Account account, Notifications notifications) {
         modelMapper.map(notifications, account);
         accountRepository.save(account);
+    }
+
+    public void updateAccount(Account account, NicknameForm nicknameForm) {
+        account.setNickname(nicknameForm.getNickname());
+        login(account);
     }
 }

@@ -1,5 +1,6 @@
-package com.studyhaja.settings;
+package com.studyhaja.settings.validator;
 
+import com.studyhaja.settings.form.PasswordForm;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 

@@ -1,4 +1,4 @@
-package com.studyhaja.settings;
+package com.studyhaja.settings.form;
 
 import com.studyhaja.domain.Account;
 import lombok.Data;
