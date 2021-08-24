@@ -1,6 +1,7 @@
 package com.studyhaja.account;
 
 import com.studyhaja.domain.Account;
+import com.studyhaja.settings.PasswordForm;
 import com.studyhaja.settings.Profile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
@@ -88,5 +89,10 @@ public class AccountService implements UserDetailsService {
         account.setLocation(profile.getLocation());
         account.setProfileImage(profile.getProfileImage());
         accountRepository.save(account);    // Detached 상태인 account를 Repositor를 이용해 Persist로 다룸
+    }
+
+    public void updatePassword(Account account, String newPassword) {
+        account.setPassword(passwordEncoder.encode(newPassword));
+        accountRepository.save(account);
     }
 }
