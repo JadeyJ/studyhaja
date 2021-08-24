@@ -1,6 +1,7 @@
 package com.studyhaja.account;
 
 import com.studyhaja.domain.Account;
+import com.studyhaja.settings.Profile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -78,5 +79,14 @@ public class AccountService implements UserDetailsService {
     public void completeSignUp(Account account) {
         account.completeSignUp();
         login(account);
+    }
+
+    public void updateProfile(Account account, Profile profile) {
+        account.setBio(profile.getBio());
+        account.setUrl(profile.getUrl());
+        account.setOccupation(profile.getOccupation());
+        account.setLocation(profile.getLocation());
+        // TODO 프로필 이미지
+        accountRepository.save(account);    // Detached 상태인 account를 Repositor를 이용해 Persist로 다룸
     }
 }
