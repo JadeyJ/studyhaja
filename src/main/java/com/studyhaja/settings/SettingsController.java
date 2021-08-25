@@ -3,25 +3,24 @@ package com.studyhaja.settings;
 import com.studyhaja.account.AccountService;
 import com.studyhaja.account.CurrentUser;
 import com.studyhaja.domain.Account;
-import com.studyhaja.settings.form.NicknameForm;
-import com.studyhaja.settings.form.Notifications;
-import com.studyhaja.settings.form.PasswordForm;
-import com.studyhaja.settings.form.Profile;
+import com.studyhaja.domain.Tag;
+import com.studyhaja.settings.form.*;
 import com.studyhaja.settings.validator.NicknameFormValidator;
 import com.studyhaja.settings.validator.PasswordFormValidator;
+import com.studyhaja.tag.TagRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -39,9 +38,13 @@ public class SettingsController {
     static final String SETTINGS_ACCOUNT_VIEW_NAME = "settings/account";
     static final String SETTINGS_ACCOUNT_URL = "/settings/account";
 
+    static final String SETTINGS_TAGS_VIEW_NAME = "settings/tags";
+    static final String SETTINGS_TAGS_URL = "/" + SETTINGS_TAGS_VIEW_NAME;
+
     private final AccountService accountService;
     private final ModelMapper modelMapper;
     private final NicknameFormValidator nicknameFormValidator;
+    private final TagRepository tagRepository;
 
     @InitBinder("passwordForm")
     public void initBinderPasswordForm(WebDataBinder webDataBinder) {
@@ -127,6 +130,29 @@ public class SettingsController {
         accountService.updateAccount(account, nicknameForm);
         attributes.addFlashAttribute("message", "닉네임을 변경했습니다.");
         return "redirect:" + SETTINGS_ACCOUNT_URL;
+    }
+
+    @GetMapping(SETTINGS_TAGS_URL)
+    public String updateTagsForm(@CurrentUser Account account, Model model) {
+        model.addAttribute(account);
+        return SETTINGS_TAGS_VIEW_NAME;
+    }
+
+    @PostMapping(SETTINGS_TAGS_URL + "/add")
+    @ResponseBody
+    public ResponseEntity addTags(@CurrentUser Account account, @RequestBody TagForm tagForm) {
+        String title = tagForm.getTagTitle();
+//        Tag tag = tagRepository.findByTitle(title).orElseGet(() -> tagRepository.save(Tag.builder()
+//                .title(title)
+//                .build()));
+
+        Tag tag = tagRepository.findByTitle(title);
+        if( tag == null ) {
+            tagRepository.save(Tag.builder().title(tagForm.getTagTitle()).build());
+        }
+
+        accountService.addTag(account, tag);
+        return ResponseEntity.ok().build();
     }
 
 }
