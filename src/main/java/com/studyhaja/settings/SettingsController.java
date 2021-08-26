@@ -142,9 +142,10 @@ public class SettingsController {
     @ResponseBody
     public ResponseEntity addTags(@CurrentUser Account account, @RequestBody TagForm tagForm) {
         String title = tagForm.getTagTitle();
-//        Tag tag = tagRepository.findByTitle(title).orElseGet(() -> tagRepository.save(Tag.builder()
-//                .title(title)
-//                .build()));
+//        Tag tag = tagRepository.findByTitle(title).orElseGet(
+//                          () -> tagRepository.save(Tag.builder()
+//                          .title(title)
+//                          .build()));
 
         Tag tag = tagRepository.findByTitle(title);
         if( tag == null ) {
