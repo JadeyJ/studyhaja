@@ -112,7 +112,7 @@ public class AccountService implements UserDetailsService {
         account.generateEmailCheckToken();
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(account.getEmail());
-        mailMessage.setSubject("스터디하자 로그인 링크");
+        mailMessage.setSubject("스터디하자 로그인 링크"); 
         mailMessage.setText("/login-by-email?token=" + account.getEmailCheckToken() + "&email=" + account.getEmail());
         javaMailSender.send(mailMessage);
     }
