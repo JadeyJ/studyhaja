@@ -10,7 +10,6 @@ import com.studyhaja.settings.validator.PasswordFormValidator;
 import com.studyhaja.tag.TagRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +19,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -133,23 +133,22 @@ public class SettingsController {
     }
 
     @GetMapping(SETTINGS_TAGS_URL)
-    public String updateTagsForm(@CurrentUser Account account, Model model) {
+    public String updateTags(@CurrentUser Account account, Model model) {
         model.addAttribute(account);
+        Set<Tag> tags = accountService.getTags(account);
+        System.err.println(tags.stream().map(Tag::getTitle).collect(Collectors.toList()));
+        model.addAttribute("tags", tags.stream().map(Tag::getTitle).collect(Collectors.toList()));
         return SETTINGS_TAGS_VIEW_NAME;
     }
 
-    @PostMapping(SETTINGS_TAGS_URL + "/add")
+    @PostMapping("/settings/tags/add")
     @ResponseBody
-    public ResponseEntity addTags(@CurrentUser Account account, @RequestBody TagForm tagForm) {
+    public ResponseEntity addTag(@CurrentUser Account account, @RequestBody TagForm tagForm) {
         String title = tagForm.getTagTitle();
-//        Tag tag = tagRepository.findByTitle(title).orElseGet(
-//                          () -> tagRepository.save(Tag.builder()
-//                          .title(title)
-//                          .build()));
 
         Tag tag = tagRepository.findByTitle(title);
-        if( tag == null ) {
-            tagRepository.save(Tag.builder().title(tagForm.getTagTitle()).build());
+        if (tag == null) {
+            tag = tagRepository.save(Tag.builder().title(tagForm.getTagTitle()).build());
         }
 
         accountService.addTag(account, tag);
