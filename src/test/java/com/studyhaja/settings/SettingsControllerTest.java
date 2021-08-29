@@ -45,10 +45,6 @@ class SettingsControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("account"))
                 .andExpect(model().attributeExists("profile"));
-
-        Account kimmy = accountRepository.findByNickname("kimmy");
-        assertEquals(bio, kimmy.getBio());
-
     }
 
     @WithAccount("kimmy")
