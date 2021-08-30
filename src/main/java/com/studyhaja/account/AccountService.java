@@ -98,8 +98,9 @@ public class AccountService implements UserDetailsService {
         accountRepository.save(account);
     }
 
-    public void updateAccount(Account account, NicknameForm nicknameForm) {
-        account.setNickname(nicknameForm.getNickname());
+    public void updateAccount(Account account, String nickname) {
+        account.setNickname(nickname);
+        accountRepository.save(account);
         login(account);
     }
 
