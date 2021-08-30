@@ -38,3 +38,6 @@ src/main/resources/static/node
 
 ### CSV file ###
 src/main/resources/zones_kr.csv
+
+### properties ###
+src/main/resources/application-dev.properties
