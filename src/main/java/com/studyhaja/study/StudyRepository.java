@@ -1,5 +1,6 @@
 package com.studyhaja.study;
 
+import com.studyhaja.domain.Account;
 import com.studyhaja.domain.Study;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
