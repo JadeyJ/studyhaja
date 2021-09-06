@@ -64,6 +64,10 @@ public class Study {
         this.managers.add(account);
     }
 
+    public void addMember(Account account) {
+        this.members.add(account);
+    }
+
     public boolean isJoinable(UserAccount userAccount) {
         Account account = userAccount.getAccount();
         return this.isPublished() && this.isRecruiting()
@@ -78,4 +82,9 @@ public class Study {
     public boolean isManager(UserAccount userAccount) {
         return this.managers.contains(userAccount.getAccount());
     }
+
+    public String getImage() {
+        return image != null ? image : "/images/default_banner.png";
+    }
+
 }
