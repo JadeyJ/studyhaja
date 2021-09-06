@@ -1,9 +1,9 @@
 package com.studyhaja.study;
 
-import com.studyhaja.account.AccountRepository;
 import com.studyhaja.domain.Account;
 import com.studyhaja.domain.Study;
 import com.studyhaja.domain.Tag;
+import com.studyhaja.domain.Zone;
 import com.studyhaja.study.form.StudyDescriptionForm;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -27,17 +27,13 @@ public class StudyService {
 
     public Study getStudyToUpdate(Account account, String path) {
         Study study = this.getStudy(path);
-        if ( !account.isManagerOf(study) ){
-            throw new AccessDeniedException("해당 기능을 사용할 수 없습니다.");
-        }
+        checkIfManager(account, study);
         return study;
     }
 
     public Study getStudy(String path) {
         Study study = this.studyRepository.findByPath(path);
-        if (study == null) {
-            throw new IllegalArgumentException(path + "에 해당하는 스터디가 없습니다.");
-        }
+        checkIfStudyExists(path, study);
         return study;
     }
 
@@ -65,4 +61,39 @@ public class StudyService {
     public void removeTag(Study study, Tag tag) {
         study.getTags().remove(tag);
     }
+
+    public void addZone(Study study, Zone zone) {
+        study.getZones().add(zone);
+    }
+
+    public void removeZone(Study study, Zone zone) {
+        study.getZones().remove(zone);
+    }
+
+    public Study getStudyToUpdateTag(Account account, String path) {
+        Study study = studyRepository.findAccountWithTagsByPath(path);
+        checkIfManager(account, study);
+        checkIfStudyExists(path, study);
+        return study;
+    }
+
+    public Study getStudyToUpdateZone(Account account, String path) {
+        Study study = studyRepository.findAccountWithZonesByPath(path);
+        checkIfManager(account, study);
+        checkIfStudyExists(path, study);
+        return study;
+    }
+
+    private void checkIfManager(Account account, Study study) {
+        if ( !account.isManagerOf(study) ){
+            throw new AccessDeniedException("해당 기능을 사용할 수 없습니다.");
+        }
+    }
+
+    private void checkIfStudyExists(String path, Study study) {
+        if (study == null) {
+            throw new IllegalArgumentException(path + "에 해당하는 스터디가 없습니다.");
+        }
+    }
+
 }
