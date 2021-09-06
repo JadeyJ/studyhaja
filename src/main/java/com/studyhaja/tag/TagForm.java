@@ -1,4 +1,4 @@
-package com.studyhaja.settings.form;
+package com.studyhaja.tag;
 
 import lombok.Data;
 

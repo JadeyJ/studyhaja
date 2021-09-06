@@ -7,7 +7,7 @@ import com.studyhaja.account.AccountService;
 import com.studyhaja.domain.Account;
 import com.studyhaja.domain.Tag;
 import com.studyhaja.domain.Zone;
-import com.studyhaja.settings.form.TagForm;
+import com.studyhaja.tag.TagForm;
 import com.studyhaja.settings.form.ZoneForm;
 import com.studyhaja.tag.TagRepository;
 import com.studyhaja.zone.ZoneRepository;

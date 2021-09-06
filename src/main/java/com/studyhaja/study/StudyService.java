@@ -3,6 +3,7 @@ package com.studyhaja.study;
 import com.studyhaja.account.AccountRepository;
 import com.studyhaja.domain.Account;
 import com.studyhaja.domain.Study;
+import com.studyhaja.domain.Tag;
 import com.studyhaja.study.form.StudyDescriptionForm;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -55,5 +56,13 @@ public class StudyService {
 
     public void updateStudyImage(Study study, String image) {
         study.setImage(image);
+    }
+
+    public void addTag(Study study, Tag tag) {
+        study.getTags().add(tag);
+    }
+
+    public void removeTag(Study study, Tag tag) {
+        study.getTags().remove(tag);
     }
 }
