@@ -1,5 +1,6 @@
 package com.studyhaja.domain;
 
+import com.studyhaja.account.UserAccount;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,7 +21,7 @@ public class Event {
     private Study study;
 
     @ManyToOne
-    private Account createBy;
+    private Account createdBy;
 
     @Column(nullable = false)
     private String title;
@@ -48,4 +49,36 @@ public class Event {
 
     @Enumerated(value = EnumType.STRING)
     private EventType eventType;
+
+    public boolean canEnrollFor(UserAccount userAccount) {
+        return isNotClosed() && !isAlreadyEnrolled(userAccount);
+    }
+
+    public boolean canNotEnrollFor(UserAccount userAccount) {
+        return isNotClosed() && isAlreadyEnrolled(userAccount);
+    }
+
+    private boolean isNotClosed() {
+        return this.endEnrollmentDateTime.isAfter(LocalDateTime.now());
+    }
+
+    private boolean isAlreadyEnrolled(UserAccount userAccount) {
+        Account account = userAccount.getAccount();
+        for( Enrollment e : this.enrollments ) {
+            if(e.getAccount().equals(account)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isAttended(UserAccount userAccount) {
+        Account account = userAccount.getAccount();
+        for( Enrollment e : this.enrollments ) {
+            if(e.getAccount().equals(account) && e.isAttended()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
