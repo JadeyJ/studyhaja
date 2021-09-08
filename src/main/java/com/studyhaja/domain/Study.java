@@ -135,4 +135,8 @@ public class Study {
             throw new RuntimeException("인원 모집을 시작할 수 없습니다. 스터디를 공개하거나 한 시간 뒤 다시 시도하세요.");
         }
     }
+
+    public boolean isRemovable() {
+        return !this.published;     // TODO 모임이 진행중인 스터디는 삭제 불가
+    }
 }
