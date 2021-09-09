@@ -1,6 +1,7 @@
 package com.studyhaja.event;
 
 import com.studyhaja.domain.Account;
+import com.studyhaja.domain.Enrollment;
 import com.studyhaja.domain.Event;
 import com.studyhaja.domain.Study;
 import com.studyhaja.event.form.EventForm;
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 public class EventService {
 
     private final EventRepository eventRepository;
+    private final EnrollmentRepository enrollmentRepository;
     private final ModelMapper modelMapper;
 
     public Event createEvent(Event event, Study study, Account account) {
@@ -28,10 +30,28 @@ public class EventService {
 
     public void updateEvent(Event event, EventForm eventForm) {
         modelMapper.map(eventForm, event);
-        // TODO 선착순 모임의 경우, 추가 인원의 참가 신청 후 상태를 자동으로 '확정'으로 변경.
+        event.acceptWaitingList();
     }
 
     public void deleteEvent(Event event) {
         eventRepository.delete(event);
+    }
+
+    public void newEnrollment(Event event, Account account) {
+        if(!enrollmentRepository.existsByEventAndAccount(event, account)) {
+            Enrollment enrollment = new Enrollment();
+            enrollment.setEnrolledAt(LocalDateTime.now());
+            enrollment.setAccount(account);
+            enrollment.setAccepted(event.isAbleToAcceptWaitingEnrollment());
+            event.addEnrollment(enrollment);
+            enrollmentRepository.save(enrollment);
+        }
+    }
+
+    public void cancelEnrollment(Event event, Account account) {
+        Enrollment enrollment = enrollmentRepository.findByEventAndAccount(event, account);
+        event.removeEnrollment(enrollment);
+        enrollmentRepository.delete(enrollment);
+        event.acceptNextWaitingEnrollment();
     }
 }
