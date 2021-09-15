@@ -1,6 +1,7 @@
 package com.studyhaja.modules.account;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.studyhaja.infra.AbstractContainerBaseTest;
 import com.studyhaja.infra.MockMvcTest;
 import com.studyhaja.modules.tag.Tag;
 import com.studyhaja.modules.tag.TagForm;
@@ -25,7 +26,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @MockMvcTest
-class SettingsControllerTest {
+class SettingsControllerTest extends AbstractContainerBaseTest {
 
     @Autowired MockMvc mockMvc;
     @Autowired AccountRepository accountRepository;

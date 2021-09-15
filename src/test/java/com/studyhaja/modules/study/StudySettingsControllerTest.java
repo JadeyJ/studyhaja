@@ -1,5 +1,6 @@
 package com.studyhaja.modules.study;
 
+import com.studyhaja.infra.AbstractContainerBaseTest;
 import com.studyhaja.infra.MockMvcTest;
 import com.studyhaja.modules.account.Account;
 import com.studyhaja.modules.account.AccountFactory;
@@ -16,7 +17,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @MockMvcTest
-class StudySettingsControllerTest {
+class StudySettingsControllerTest extends AbstractContainerBaseTest {
 
     @Autowired MockMvc mockMvc;
     @Autowired StudyFactory studyFactory;
