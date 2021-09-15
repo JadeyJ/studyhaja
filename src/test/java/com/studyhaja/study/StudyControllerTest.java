@@ -24,12 +24,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @RequiredArgsConstructor
-class StudyControllerTest {
+public class StudyControllerTest {
 
-    @Autowired MockMvc mockMvc;
-    @Autowired StudyService studyService;
-    @Autowired StudyRepository studyRepository;
-    @Autowired AccountRepository accountRepository;
+    @Autowired protected MockMvc mockMvc;
+    @Autowired protected StudyService studyService;
+    @Autowired protected StudyRepository studyRepository;
+    @Autowired protected AccountRepository accountRepository;
 
     @AfterEach
     void afterEach() {
@@ -137,14 +137,14 @@ class StudyControllerTest {
         assertFalse(study.getMembers().contains(kimmy));
     }
 
-    private Study createStudy(String path, Account account) {
+    protected Study createStudy(String path, Account account) {
         Study study = new Study();
         study.setPath(path);
         studyService.createNewStudy(study, account);
         return study;
     }
 
-    private Account createAccount(String nickname) {
+    protected Account createAccount(String nickname) {
         Account account = new Account();
         account.setNickname(nickname);
         account.setEmail(nickname + "@email.com");

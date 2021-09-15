@@ -17,11 +17,11 @@
             </div>
             <div class="col-4 text-right justify-content-end">
                     <span sec:authorize="isAuthenticated()">
-                        <button th:if="${event.canEnrollFor(#authentication.principal)}"
+                        <button th:if="${event.isEnrollableFor(#authentication.principal)}"
                                 class="btn btn-outline-primary" data-toggle="modal" data-target="#enroll">
                             <i class="fa fa-plus-circle"></i> 참가 신청
                         </button>
-                        <button th:if="${event.canNotEnrollFor(#authentication.principal)}"
+                        <button th:if="${event.isDisenrollableFor(#authentication.principal)}"
                                 class="btn btn-outline-primary" data-toggle="modal" data-target="#disenroll">
                             <i class="fa fa-minus-circle"></i> 참가 신청 취소
                         </button>
@@ -77,7 +77,7 @@
                 </div>
             </div>
         </div>
-        <div class="row px-3 justify-content-center my-3">
+        <div class="row px-3 justify-content-center">
             <div class="col-7 pt-3">
                 <dt class="font-weight-light">상세 모임 설명</dt>
                 <dd th:utext="${event.description}"></dd>
@@ -136,7 +136,7 @@
                     </table>
                 </dd>
             </div>
-            <dl class="col-3 pt-3 border rounded">
+            <dl class="col-3 pt-3 text-right">
                 <dt class="font-weight-light">모집 방법</dt>
                 <dd>
                     <span th:if="${event.eventType == T(com.studyhaja.domain.EventType).FCFS}">선착순</span>
