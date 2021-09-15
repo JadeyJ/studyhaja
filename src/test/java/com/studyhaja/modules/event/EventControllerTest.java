@@ -157,7 +157,7 @@ class EventControllerTest {
         event.setStudy(study);
         event.setLimitOfEnrollments(limit);
         event.setCreatedBy(account);
-        event.setCretedDateTime(LocalDateTime.now());
+        event.setCreatedDateTime(LocalDateTime.now());
         event.setEndEnrollmentDateTime(LocalDateTime.now().plusDays(1));
         event.setStartDateTime(LocalDateTime.now().plusDays(1).plusHours(5));
         event.setEndDateTime(LocalDateTime.now().plusDays(1).plusHours(7));
