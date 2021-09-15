@@ -1,41 +1,34 @@
 package com.studyhaja.modules.account;
 
+import com.studyhaja.infra.MockMvcTest;
 import com.studyhaja.infra.mail.EmailMessage;
 import com.studyhaja.infra.mail.EmailService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
 
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.then;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@Transactional
-@SpringBootTest
-@AutoConfigureMockMvc
+@MockMvcTest
 class AccountControllerTest {
 
-    @Autowired private MockMvc mockMvc;
-
-    @Autowired
-    private AccountRepository accountRepository;
+    @Autowired MockMvc mockMvc;
+    @Autowired AccountRepository accountRepository;
 
     @MockBean
     private EmailService emailService;
-
-
 
     @DisplayName("인증 메일 확인 - 입력값 오류")
     @Test

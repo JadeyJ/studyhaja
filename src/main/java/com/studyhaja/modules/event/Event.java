@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,7 +52,7 @@ public class Event {
 
     @OneToMany(mappedBy = "event")
     @OrderBy("enrolledAt")
-    private List<Enrollment> enrollments;
+    private List<Enrollment> enrollments = new ArrayList<>();
 
     @Enumerated(value = EnumType.STRING)
     private EventType eventType;

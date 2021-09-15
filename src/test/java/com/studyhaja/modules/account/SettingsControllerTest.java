@@ -1,23 +1,21 @@
 package com.studyhaja.modules.account;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.studyhaja.infra.MockMvcTest;
 import com.studyhaja.modules.tag.Tag;
-import com.studyhaja.modules.zone.Zone;
 import com.studyhaja.modules.tag.TagForm;
-import com.studyhaja.modules.zone.ZoneForm;
 import com.studyhaja.modules.tag.TagRepository;
+import com.studyhaja.modules.zone.Zone;
+import com.studyhaja.modules.zone.ZoneForm;
 import com.studyhaja.modules.zone.ZoneRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
 
 import static com.studyhaja.modules.account.SettingsController.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,9 +24,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@Transactional
-@SpringBootTest
-@AutoConfigureMockMvc
+@MockMvcTest
 class SettingsControllerTest {
 
     @Autowired MockMvc mockMvc;
