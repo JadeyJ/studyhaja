@@ -2,6 +2,7 @@ package com.studyhaja.modules.study;
 
 import com.studyhaja.modules.account.Account;
 import com.studyhaja.modules.study.event.StudyCreatedEvent;
+import com.studyhaja.modules.study.event.StudyUpdateEvent;
 import com.studyhaja.modules.tag.Tag;
 import com.studyhaja.modules.zone.Zone;
 import com.studyhaja.modules.study.form.StudyDescriptionForm;
@@ -26,7 +27,6 @@ public class StudyService {
     public Study createNewStudy(Study study, Account account) {
         Study newStudy = studyRepository.save(study);
         newStudy.addManager(account);
-//        eventPublisher.publishEvent(new StudyCreatedEvent(newStudy));
         return newStudy;
     }
 
@@ -42,9 +42,9 @@ public class StudyService {
         return study;
     }
 
-
     public void updateStudyDescription(Study study, StudyDescriptionForm studyDescriptionForm) {
         modelMapper.map(studyDescriptionForm, study);
+        this.eventPublisher.publishEvent(new StudyUpdateEvent(study, "스터디 소개를 수정했습니다."));
     }
 
     public void enableStudyBanner(Study study) {
@@ -115,14 +115,17 @@ public class StudyService {
 
     public void close(Study study) {
         study.close();
+        this.eventPublisher.publishEvent(new StudyUpdateEvent(study, "스터디를 종료했습니다."));
     }
 
     public void startRecruit(Study study) {
         study.startRecruit();
+        this.eventPublisher.publishEvent(new StudyUpdateEvent(study, "팀원 모집을 시작합니다."));
     }
 
     public void stopRecruit(Study study) {
         study.stopRecruit();
+        this.eventPublisher.publishEvent(new StudyUpdateEvent(study, "팀원 모집을 종료합니다."));
     }
 
     public boolean isValidPath(String newPath) {
