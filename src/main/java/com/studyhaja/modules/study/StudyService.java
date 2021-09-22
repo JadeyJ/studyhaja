@@ -156,11 +156,11 @@ public class StudyService {
     }
 
     public void addMember(Study study, Account account) {
-        study.getMembers().add(account);
+        study.addMember(account);
     }
 
     public void removeMember(Study study, Account account) {
-        study.getMembers().remove(account);
+        study.removeMember(account);
     }
 
     public Study getStudyToEnroll(String path) {
